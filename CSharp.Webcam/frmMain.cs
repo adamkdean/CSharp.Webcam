@@ -16,6 +16,11 @@ namespace CSharp.Webcam
 {
     public partial class frmMain : Form
     {
+        private const int CAPTURE_WIDTH = 640;
+        private const int CAPTURE_HEIGHT = 480;
+        private const int CAPTURE_FPS = 30;
+        private const float STARTUP_DELAY = 250f;
+        
         private List<Camera> availableCameras;
         private Camera selectedCamera;
         private CameraFrameSource cameraFrameSource;        
@@ -29,7 +34,7 @@ namespace CSharp.Webcam
         {
             WriteLog("Initializing...");
 
-            var timer = new System.Timers.Timer { Interval = (500f) };
+            var timer = new System.Timers.Timer { Interval = (STARTUP_DELAY) };
             timer.Elapsed += new ElapsedEventHandler((o, a) => timer.Enabled = false);
             timer.Elapsed += new ElapsedEventHandler((o, a) => Start());            
             timer.Enabled = true;
@@ -60,9 +65,9 @@ namespace CSharp.Webcam
             WriteLog("Selected camera: {0}", selectedCamera.Name);
 
             cameraFrameSource = new CameraFrameSource(selectedCamera);
-            cameraFrameSource.Camera.CaptureWidth = 640;
-            cameraFrameSource.Camera.CaptureHeight = 480;
-            cameraFrameSource.Camera.Fps = 30;
+            cameraFrameSource.Camera.CaptureWidth = CAPTURE_WIDTH;
+            cameraFrameSource.Camera.CaptureHeight = CAPTURE_HEIGHT;
+            cameraFrameSource.Camera.Fps = CAPTURE_FPS;
             cameraFrameSource.NewFrame += OnNewFrame;
             WriteLog("CameraFrameSource created {0}x{1} @ {2} fps",
                 cameraFrameSource.Camera.CaptureWidth, 
