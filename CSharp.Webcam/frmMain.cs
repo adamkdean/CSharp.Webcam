@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,7 @@ namespace CSharp.Webcam
     {
         private List<Camera> availableCameras;
         private Camera selectedCamera;
-        private CameraFrameSource cameraFrameSource;
-        private static Bitmap latestFrame;
+        private CameraFrameSource cameraFrameSource;        
 
         public frmMain()
         {
@@ -70,22 +70,32 @@ namespace CSharp.Webcam
                 cameraFrameSource.Camera.Fps);
 
             WriteLog("Starting capture...");
-            cameraDisplayBox.Paint += new PaintEventHandler(DrawLatestFrame);
             cameraFrameSource.StartFrameCapture();
-        }
-
-        private void DrawLatestFrame(object sender, PaintEventArgs e)
-        {
-            if (latestFrame != null)
-            {
-                e.Graphics.DrawImage(latestFrame, 0, 0, latestFrame.Width, latestFrame.Height);                
-            }
         }
 
         private void OnNewFrame(IFrameSource frameSource, Frame frame, double fps)
         {
-            latestFrame = frame.Image;
-            cameraDisplayBox.Invalidate();
+            ProcessFrame(frame.Image);
+        }
+
+        private void ProcessFrame(Bitmap frame)
+        {
+            // draw original image to pictureBox1
+            Bitmap thumbnail = new Bitmap(pictureBox1.Height, pictureBox1.Width);
+            using (Graphics gr = Graphics.FromImage(thumbnail))
+            {
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(frame, new Rectangle(0, 0, pictureBox1.Height, pictureBox1.Width));
+            }
+            pictureBox1.Image = thumbnail;
+
+            // pictureBox2
+
+            // pictureBox3
+
+            // pictureBox4
         }
 
         private void WriteLog(string format, params object[] args)
