@@ -29,7 +29,7 @@ namespace CSharp.Webcam
         {
             WriteLog("Initializing...");
 
-            var timer = new System.Timers.Timer { Interval = (1000f) };
+            var timer = new System.Timers.Timer { Interval = (500f) };
             timer.Elapsed += new ElapsedEventHandler((o, a) => timer.Enabled = false);
             timer.Elapsed += new ElapsedEventHandler((o, a) => Start());            
             timer.Enabled = true;
@@ -60,9 +60,9 @@ namespace CSharp.Webcam
             WriteLog("Selected camera: {0}", selectedCamera.Name);
 
             cameraFrameSource = new CameraFrameSource(selectedCamera);
-            cameraFrameSource.Camera.CaptureWidth = 320;
-            cameraFrameSource.Camera.CaptureHeight = 240;
-            cameraFrameSource.Camera.Fps = 10;            
+            cameraFrameSource.Camera.CaptureWidth = 640;
+            cameraFrameSource.Camera.CaptureHeight = 480;
+            cameraFrameSource.Camera.Fps = 30;
             cameraFrameSource.NewFrame += OnNewFrame;
             WriteLog("CameraFrameSource created {0}x{1} @ {2} fps",
                 cameraFrameSource.Camera.CaptureWidth, 
@@ -78,8 +78,7 @@ namespace CSharp.Webcam
         {
             if (latestFrame != null)
             {
-                e.Graphics.DrawImage(latestFrame, 0, 0, latestFrame.Width, latestFrame.Height);
-                WriteLog("Size: {0},{1}", latestFrame.Width, latestFrame.Height);
+                e.Graphics.DrawImage(latestFrame, 0, 0, latestFrame.Width, latestFrame.Height);                
             }
         }
 
