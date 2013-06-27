@@ -192,11 +192,6 @@ namespace Touchless.Vision.Camera
             _cameraMethods.GetCameraInfo(_index);
         }
 
-        public void SetProperty(int property, int value, bool auto) // bntr
-        {
-            _cameraMethods.SetProperty(property, value, auto);
-        }
-
         /// <summary>
         /// Event fired when an image from the camera is captured
         /// </summary>
