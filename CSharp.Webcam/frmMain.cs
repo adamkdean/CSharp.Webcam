@@ -1,11 +1,14 @@
-﻿using System;
+﻿using CSharp.Webcam.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
@@ -23,7 +26,8 @@ namespace CSharp.Webcam
         
         private List<Camera> availableCameras;
         private Camera selectedCamera;
-        private CameraFrameSource cameraFrameSource;        
+        private CameraFrameSource cameraFrameSource;
+        private Bitmap lastFrame;
 
         public frmMain()
         {
@@ -80,27 +84,31 @@ namespace CSharp.Webcam
 
         private void OnNewFrame(IFrameSource frameSource, Frame frame, double fps)
         {
-            ProcessFrame(frame.Image);
+            var timeStart = DateTime.Now;
+            var currentFrame = (Bitmap)frame.Image.Clone();
+            pictureBox1.Image = (Bitmap)frame.Image.Clone();
+            
+            if (lastFrame != null)
+            {                
+                // http://www.codeproject.com/Articles/10248/Motion-Detection-Algorithms
+            }
+
+            var elapsed = DateTime.Now - timeStart;
+            UpdateLabel(lblMS, string.Format("{0:0.00} ms", elapsed.TotalMilliseconds));
+            UpdateLabel(lblFPS, string.Format("{0} FPS", FrameRateCounter.CalculateFrameRate()));
+            lastFrame = currentFrame;
         }
 
-        private void ProcessFrame(Bitmap frame)
+        private void UpdateLabel(Label label, string s)
         {
-            // draw original image to pictureBox1
-            Bitmap thumbnail = new Bitmap(pictureBox1.Height, pictureBox1.Width);
-            using (Graphics gr = Graphics.FromImage(thumbnail))
+            if (InvokeRequired)
             {
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                gr.DrawImage(frame, new Rectangle(0, 0, pictureBox1.Height, pictureBox1.Width));
+                var action = new Action<Label, string>(UpdateLabel);
+                Invoke(action, label, s);
+                return;
             }
-            pictureBox1.Image = thumbnail;
 
-            // pictureBox2
-
-            // pictureBox3
-
-            // pictureBox4
+            label.Text = s;
         }
 
         private void WriteLog(string format, params object[] args)
