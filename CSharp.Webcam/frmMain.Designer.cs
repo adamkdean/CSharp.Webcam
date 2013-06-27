@@ -28,18 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pbPreview = new System.Windows.Forms.PictureBox();
+            this.cameraDisplayBox = new System.Windows.Forms.PictureBox();
             this.txtLog = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
+            this.btnConfig = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraDisplayBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // pbPreview
+            // cameraDisplayBox
             // 
-            this.pbPreview.Location = new System.Drawing.Point(12, 12);
-            this.pbPreview.Name = "pbPreview";
-            this.pbPreview.Size = new System.Drawing.Size(320, 240);
-            this.pbPreview.TabIndex = 1;
-            this.pbPreview.TabStop = false;
+            this.cameraDisplayBox.Location = new System.Drawing.Point(12, 12);
+            this.cameraDisplayBox.Name = "cameraDisplayBox";
+            this.cameraDisplayBox.Size = new System.Drawing.Size(320, 240);
+            this.cameraDisplayBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.cameraDisplayBox.TabIndex = 1;
+            this.cameraDisplayBox.TabStop = false;
             // 
             // txtLog
             // 
@@ -54,17 +56,29 @@
             this.txtLog.TabIndex = 3;
             this.txtLog.TabStop = false;
             // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(286, 230);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(46, 23);
+            this.btnConfig.TabIndex = 4;
+            this.btnConfig.Text = "Config";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 264);
+            this.ClientSize = new System.Drawing.Size(730, 263);
+            this.Controls.Add(this.btnConfig);
             this.Controls.Add(this.txtLog);
-            this.Controls.Add(this.pbPreview);
+            this.Controls.Add(this.cameraDisplayBox);
             this.Name = "frmMain";
             this.Text = "CSharp.Webcam";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraDisplayBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -72,8 +86,9 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pbPreview;
+        private System.Windows.Forms.PictureBox cameraDisplayBox;
         private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.Button btnConfig;
     }
 }
 
