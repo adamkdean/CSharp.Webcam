@@ -28,6 +28,7 @@ namespace CSharp.Webcam
         private Camera selectedCamera;
         private CameraFrameSource cameraFrameSource;
         private Bitmap lastFrame;
+        private PictureBox maxPictureBox;
 
         public frmMain()
         {
@@ -44,22 +45,103 @@ namespace CSharp.Webcam
             timer.Enabled = true;
         }
 
+        #region User Interface
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (cameraFrameSource != null)
-            {
-                cameraFrameSource.NewFrame -= OnNewFrame;
-                cameraFrameSource.Camera.Dispose();
-                cameraFrameSource = null;                
-            }
+            btnExit_Click(this, null);
         }
 
         private void btnConfig_Click(object sender, EventArgs e)
         {
             if (cameraFrameSource != null)
                 cameraFrameSource.Camera.ShowPropertiesDialog();
-        }  
+        }        
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            if (cameraFrameSource != null)
+            {
+                cameraFrameSource.NewFrame -= OnNewFrame;
+                cameraFrameSource.Camera.Dispose();
+                cameraFrameSource = null;
+                Application.Exit();
+            }
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            TogglePictureBox(pictureBox1, true);
+        }
+
+        private void pictureBox2_DoubleClick(object sender, EventArgs e)
+        {
+            TogglePictureBox(pictureBox2, true);
+        }
+
+        private void pictureBox3_DoubleClick(object sender, EventArgs e)
+        {
+            TogglePictureBox(pictureBox3, true);
+        }
+
+        private void pictureBox4_DoubleClick(object sender, EventArgs e)
+        {
+            TogglePictureBox(pictureBox4, true);
+        }
+
+        private void pictureBox5_DoubleClick(object sender, EventArgs e)
+        {
+            TogglePictureBox(null, false);
+        }
+
+        private void TogglePictureBox(PictureBox box, bool maximize)
+        {
+            pictureBox1.Visible = !maximize;
+            pictureBox2.Visible = !maximize;
+            pictureBox3.Visible = !maximize;
+            pictureBox4.Visible = !maximize;
+            pictureBox5.Visible = maximize;
+            maxPictureBox = box;
+        }
+
+        private void pictureBox5_Paint(object sender, PaintEventArgs e)
+        {
+            if (maxPictureBox != null) pictureBox5.Image = maxPictureBox.Image;
+        }
+
+        private void UpdateLabel(Label label, string s)
+        {
+            if (InvokeRequired)
+            {
+                var action = new Action<Label, string>(UpdateLabel);
+                Invoke(action, label, s);
+                return;
+            }
+
+            label.Text = s;
+        }
+
+        private void WriteLog(string format, params object[] args)
+        {
+            WriteLog(string.Format(format, args));
+        }
+
+        private void WriteLog(string s)
+        {
+            if (InvokeRequired)
+            {
+                Action<string> action = new Action<string>(WriteLog);
+                Invoke(action, s);
+                return;
+            }
+
+            string prefix = (txtLog.Text == "") ? "" : "\r\n";
+            txtLog.Text += string.Format("{0}{1}", prefix, s);
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+        }
+        #endregion
+
+        #region Camera Function
         private void Start()
         {
             availableCameras = new List<Camera>(CameraService.AvailableCameras);
@@ -86,7 +168,7 @@ namespace CSharp.Webcam
         {
             var timeStart = DateTime.Now;
             var currentFrame = (Bitmap)frame.Image.Clone();
-            pictureBox1.Image = (Bitmap)frame.Image.Clone();
+            pictureBox1.Image = currentFrame; // (Bitmap)frame.Image.Clone();
             
             if (lastFrame != null)
             {                
@@ -98,37 +180,6 @@ namespace CSharp.Webcam
             UpdateLabel(lblFPS, string.Format("{0} FPS", FrameRateCounter.CalculateFrameRate()));
             lastFrame = currentFrame;
         }
-
-        private void UpdateLabel(Label label, string s)
-        {
-            if (InvokeRequired)
-            {
-                var action = new Action<Label, string>(UpdateLabel);
-                Invoke(action, label, s);
-                return;
-            }
-
-            label.Text = s;
-        }
-
-        private void WriteLog(string format, params object[] args)
-        {
-            WriteLog(string.Format(format, args));
-        }
-
-        private void WriteLog(string s)
-        {
-            if (InvokeRequired)
-            {                
-                Action<string> action = new Action<string>(WriteLog);
-                Invoke(action, s);
-                return;
-            }
-
-            string prefix = (txtLog.Text == "") ? "" : "\r\n";
-            txtLog.Text += string.Format("{0}{1}", prefix, s);
-            txtLog.SelectionStart = txtLog.Text.Length;
-            txtLog.ScrollToCaret();
-        }      
+        #endregion
     }
 }

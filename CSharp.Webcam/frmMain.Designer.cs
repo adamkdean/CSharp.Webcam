@@ -35,10 +35,14 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.lblMS = new System.Windows.Forms.Label();
             this.lblFPS = new System.Windows.Forms.Label();
+            this.btnConfig = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // txtLog
@@ -50,7 +54,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(394, 458);
+            this.txtLog.Size = new System.Drawing.Size(394, 429);
             this.txtLog.TabIndex = 3;
             this.txtLog.TabStop = false;
             // 
@@ -63,6 +67,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // pictureBox2
             // 
@@ -73,6 +78,7 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.DoubleClick += new System.EventHandler(this.pictureBox2_DoubleClick);
             // 
             // pictureBox3
             // 
@@ -83,6 +89,7 @@
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 9;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.DoubleClick += new System.EventHandler(this.pictureBox3_DoubleClick);
             // 
             // pictureBox4
             // 
@@ -93,6 +100,7 @@
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 8;
             this.pictureBox4.TabStop = false;
+            this.pictureBox4.DoubleClick += new System.EventHandler(this.pictureBox4_DoubleClick);
             // 
             // lblMS
             // 
@@ -113,11 +121,48 @@
             this.lblFPS.Text = "0 FPS";
             this.lblFPS.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(664, 476);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 12;
+            this.btnConfig.Text = "Config";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(983, 476);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 13;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.pictureBox5.Location = new System.Drawing.Point(15, 16);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(640, 480);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 14;
+            this.pictureBox5.TabStop = false;
+            this.pictureBox5.Visible = false;
+            this.pictureBox5.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox5_Paint);
+            this.pictureBox5.DoubleClick += new System.EventHandler(this.pictureBox5_DoubleClick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1070, 510);
+            this.ControlBox = false;
+            this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnConfig);
             this.Controls.Add(this.lblFPS);
             this.Controls.Add(this.lblMS);
             this.Controls.Add(this.pictureBox3);
@@ -135,6 +180,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +195,9 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label lblMS;
         private System.Windows.Forms.Label lblFPS;
+        private System.Windows.Forms.Button btnConfig;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.PictureBox pictureBox5;
     }
 }
 
